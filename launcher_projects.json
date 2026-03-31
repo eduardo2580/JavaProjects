@@ -23,5 +23,10 @@
     "name": "Snake Game",
     "path": "SnakeInJava/SnakeGame.java",
     "description": ""
+  },
+  {
+    "name": "Sudoku",
+    "path": "SudokuInJava/App.java",
+    "description": ""
   }
 ]
