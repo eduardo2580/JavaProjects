@@ -18,5 +18,10 @@
     "name": "PacMan Game",
     "path": "PacManInJava/App.java",
     "description": ""
+  },
+  {
+    "name": "Snake Game",
+    "path": "SnakeInJava/SnakeGame.java",
+    "description": ""
   }
 ]
