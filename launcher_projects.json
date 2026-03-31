@@ -13,5 +13,10 @@
     "name": "Pokemon Memory Cards Game",
     "path": "PokemonMemoryCardsInJava/App.java",
     "description": ""
+  },
+  {
+    "name": "PacMan Game",
+    "path": "PacManInJava/App.java",
+    "description": ""
   }
 ]
