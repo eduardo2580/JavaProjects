@@ -3,5 +3,15 @@
     "name": "Dinosaur Game",
     "path": "DinosaurInJava/App.java",
     "description": ""
+  },
+  {
+    "name": "Space Invaders Game",
+    "path": "SpaceInvadersInJava/App.java",
+    "description": ""
+  },
+  {
+    "name": "Pokemon Memory Cards Game",
+    "path": "PokemonMemoryCardsInJava/App.java",
+    "description": ""
   }
 ]
