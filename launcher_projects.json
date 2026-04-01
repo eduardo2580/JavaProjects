@@ -28,5 +28,10 @@
     "name": "Sudoku",
     "path": "SudokuInJava/App.java",
     "description": ""
+  },
+  {
+    "name": "Flappy Bird Game",
+    "path": "FlappyBirdInJava/App.java",
+    "description": ""
   }
 ]
