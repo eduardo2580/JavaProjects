@@ -33,5 +33,10 @@
     "name": "Flappy Bird Game",
     "path": "FlappyBirdInJava/App.java",
     "description": ""
+  },
+  {
+    "name": "Whac A Mole Game",
+    "path": "WhacAMoleInJava/App.java",
+    "description": ""
   }
 ]
