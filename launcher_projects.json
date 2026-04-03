@@ -38,5 +38,10 @@
     "name": "Whac A Mole Game",
     "path": "WhacAMoleInJava/App.java",
     "description": ""
+  },
+  {
+    "name": "Black Jack Game",
+    "path": "BlackJackInJava/App.java",
+    "description": ""
   }
 ]
