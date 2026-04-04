@@ -43,5 +43,10 @@
     "name": "Black Jack Game",
     "path": "BlackJackInJava/App.java",
     "description": ""
+  },
+  {
+    "name": "Minesweeper Game",
+    "path": "MinesweeperInJava/App.java",
+    "description": ""
   }
 ]
