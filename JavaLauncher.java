@@ -20,7 +20,7 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 /**
  * JavaLauncher V2 - Ultra Aesthetic Edition
- * Custom Branding: Eduardo's Java Projects
+ * Updated for Nested JSON & Multi-language Descriptions
  */
 public class JavaLauncher extends JFrame {
 
@@ -31,7 +31,7 @@ public class JavaLauncher extends JFrame {
     private static final Color PANEL_DARK = Color.decode("#12121a");
     private static final Color CARD_BG = Color.decode("#1c1c26");
     private static final Color CARD_HOVER = Color.decode("#252533");
-    private static final Color ACCENT = Color.decode("#7c3aed"); // Vivid Violet
+    private static final Color ACCENT = Color.decode("#7c3aed"); 
     private static final Color ACCENT_GLOW = Color.decode("#a78bfa");
     private static final Color TEXT_MAIN = Color.decode("#f8fafc");
     private static final Color TEXT_SEC = Color.decode("#94a3b8");
@@ -47,13 +47,12 @@ public class JavaLauncher extends JFrame {
     private static final Map<String, Map<String, String>> I18N = new HashMap<>();
 
     static {
-        // ENGLISH
         Map<String, String> en = new HashMap<>();
         en.put("title", "Eduardo's Java Projects");
         en.put("search_prompt", "Search projects...");
         en.put("run", "Launch");
         en.put("status_idle", "Waiting");
-        en.put("status_compiling", "Compiling...");
+        en.put("status_compiling", "Preparing...");
         en.put("status_running", "Executing");
         en.put("status_done", "Completed");
         en.put("status_error", "Failed");
@@ -61,13 +60,12 @@ public class JavaLauncher extends JFrame {
         en.put("hint", "Protected under Brazilian Law 9,610/98");
         I18N.put("en", en);
 
-        // PORTUGUESE
         Map<String, String> pt = new HashMap<>();
         pt.put("title", "Eduardo's Java Projects");
         pt.put("search_prompt", "Pesquisar projetos...");
         pt.put("run", "Iniciar");
         pt.put("status_idle", "Aguardando");
-        pt.put("status_compiling", "Compilando...");
+        pt.put("status_compiling", "Preparando...");
         pt.put("status_running", "Executando");
         pt.put("status_done", "Finalizado");
         pt.put("status_error", "Erro");
@@ -75,13 +73,12 @@ public class JavaLauncher extends JFrame {
         pt.put("hint", "Protegido pela Lei Brasileira nº 9.610/98");
         I18N.put("pt", pt);
 
-        // SPANISH
         Map<String, String> es = new HashMap<>();
         es.put("title", "Eduardo's Java Projects");
         es.put("search_prompt", "Buscar proyectos...");
         es.put("run", "Ejecutar");
         es.put("status_idle", "En espera");
-        es.put("status_compiling", "Compilando...");
+        es.put("status_compiling", "Preparando...");
         es.put("status_running", "Ejecutando");
         es.put("status_done", "Completado");
         es.put("status_error", "Error");
@@ -109,7 +106,7 @@ public class JavaLauncher extends JFrame {
     private void setupFrame() {
         setTitle("Eduardo's Java Projects");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(850, 700);
+        setSize(900, 750);
         setLocationRelativeTo(null);
         getContentPane().setBackground(BG);
         setLayout(new BorderLayout());
@@ -120,7 +117,6 @@ public class JavaLauncher extends JFrame {
     }
 
     private void initUI() {
-        // Header Section
         JPanel header = new JPanel(new BorderLayout());
         header.setOpaque(false);
         header.setBorder(new EmptyBorder(25, 30, 15, 30));
@@ -141,7 +137,6 @@ public class JavaLauncher extends JFrame {
         updateLangBtnStyles();
         header.add(langBox, BorderLayout.EAST);
 
-        // Search & Filter
         searchField = new JTextField();
         searchField.setBackground(PANEL_DARK);
         searchField.setForeground(TEXT_MAIN);
@@ -169,7 +164,6 @@ public class JavaLauncher extends JFrame {
         topSection.add(searchWrapper, BorderLayout.CENTER);
         add(topSection, BorderLayout.NORTH);
 
-        // Center Content
         cardContainer = new JPanel();
         cardContainer.setLayout(new BoxLayout(cardContainer, BoxLayout.Y_AXIS));
         cardContainer.setOpaque(false);
@@ -181,7 +175,6 @@ public class JavaLauncher extends JFrame {
         scroll.getVerticalScrollBar().setUI(new ModernScrollBarUI());
         add(scroll, BorderLayout.CENTER);
 
-        // Footer
         JPanel footer = new JPanel(new BorderLayout());
         footer.setBackground(PANEL_DARK);
         footer.setBorder(new EmptyBorder(10, 30, 10, 30));
@@ -232,6 +225,7 @@ public class JavaLauncher extends JFrame {
     private void refreshList() {
         String query = searchField.getText().toLowerCase().trim();
         cardContainer.removeAll();
+        cardsMap.clear();
         for (Project p : allProjects) {
             if (query.isEmpty() || p.name.toLowerCase().contains(query)) {
                 ProjectCard card = new ProjectCard(p);
@@ -247,20 +241,29 @@ public class JavaLauncher extends JFrame {
     private List<Project> loadProjects() {
         List<Project> list = new ArrayList<>();
         File f = new File(CONFIG_FILE);
-        if (!f.exists()) {
-            list.add(new Project("Example Project", ".", "Run the launcher directory as a sample."));
-            return list;
-        }
+        if (!f.exists()) return list;
+
         try {
             String content = new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8);
-            Matcher m = Pattern.compile("\\{([^{}]+)\\}").matcher(content);
+            // Regex that captures from { "name" to the end of the object properly
+            Pattern p = Pattern.compile("\\{\\s*\"name\"\\s*:[^\\}]+\\}\\s*\\}", Pattern.DOTALL);
+            Matcher m = p.matcher(content);
+            
             while (m.find()) {
-                String block = m.group(1);
-                list.add(new Project(
-                    getJsonVal(block, "name"),
-                    getJsonVal(block, "path"),
-                    getJsonVal(block, "description")
-                ));
+                String block = m.group();
+                String name = getJsonVal(block, "name");
+                String path = getJsonVal(block, "path");
+
+                Map<String, String> descs = new HashMap<>();
+                // Extract inner description object
+                Matcher descMatcher = Pattern.compile("\"description\"\\s*:\\s*\\{([^}]+)\\}", Pattern.DOTALL).matcher(block);
+                if (descMatcher.find()) {
+                    String descBlock = descMatcher.group(1);
+                    descs.put("en", getJsonVal(descBlock, "en"));
+                    descs.put("es", getJsonVal(descBlock, "es"));
+                    descs.put("pt", getJsonVal(descBlock, "pt"));
+                }
+                list.add(new Project(name, path, descs));
             }
         } catch (Exception e) { e.printStackTrace(); }
         return list;
@@ -274,16 +277,9 @@ public class JavaLauncher extends JFrame {
     private void launch(Project p, ProjectCard card) {
         new Thread(() -> {
             try {
-                updateStatus(card, "compiling", String.format("[%s] Compiling source...", p.name));
-                
+                updateStatus(card, "compiling", String.format("[%s] Launching...", p.name));
                 File target = new File(p.path);
-                if (target.isDirectory()) {
-                    File main = new File(target, "Main.java");
-                    if (!main.exists()) main = new File(target, "App.java");
-                    target = main;
-                }
-
-                if (!target.exists()) throw new Exception("Entry point not found.");
+                if (!target.exists()) throw new Exception("Path not found: " + p.path);
 
                 ProcessBuilder pb = new ProcessBuilder();
                 pb.directory(target.getParentFile());
@@ -292,27 +288,29 @@ public class JavaLauncher extends JFrame {
                 if (target.getName().endsWith(".java")) {
                     Process cp = new ProcessBuilder("javac", target.getName()).directory(target.getParentFile()).start();
                     if (cp.waitFor() != 0) {
-                        showLog("Compilation Error", readStream(cp));
+                        showLog("Compile Error", readStream(cp));
                         throw new Exception("Compile failed.");
                     }
                     pb.command("java", target.getName().replace(".java", ""));
                 } else if (target.getName().endsWith(".jar")) {
                     pb.command("java", "-jar", target.getName());
+                } else if (target.getName().endsWith(".py")) {
+                    pb.command("python", target.getName());
                 }
 
-                updateStatus(card, "running", String.format("[%s] Running application...", p.name));
+                updateStatus(card, "running", String.format("[%s] Running...", p.name));
                 Process proc = pb.start();
                 String output = readStream(proc);
                 int exit = proc.waitFor();
 
                 if (exit == 0) {
-                    updateStatus(card, "done", String.format("[%s] Execution finished successfully.", p.name));
+                    updateStatus(card, "done", String.format("[%s] Finished.", p.name));
                 } else {
-                    updateStatus(card, "error", String.format("[%s] Terminated with errors.", p.name));
-                    showLog("Runtime Error - " + p.name, output);
+                    updateStatus(card, "error", String.format("[%s] Exit Code %d", p.name, exit));
+                    showLog("Runtime Output", output);
                 }
             } catch (Exception ex) {
-                updateStatus(card, "error", "Process Error: " + ex.getMessage());
+                updateStatus(card, "error", "Error: " + ex.getMessage());
             }
         }).start();
     }
@@ -358,11 +356,14 @@ public class JavaLauncher extends JFrame {
         });
     }
 
-    // --- Inner Helper Classes ---
+    // --- Data Classes ---
 
     private static class Project {
-        String name, path, desc;
-        Project(String n, String p, String d) { name=n; path=p; desc=d; }
+        String name, path;
+        Map<String, String> descriptions;
+        Project(String n, String p, Map<String, String> d) { 
+            this.name = n; this.path = p; this.descriptions = d; 
+        }
     }
 
     private class ProjectCard extends JPanel {
@@ -374,9 +375,8 @@ public class JavaLauncher extends JFrame {
         ProjectCard(Project p) {
             this.proj = p;
             setLayout(new BorderLayout());
-            setBackground(CARD_BG);
             setOpaque(false);
-            setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+            setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
 
             JPanel inner = new RoundedPanel(18, CARD_BG);
             inner.setLayout(new BorderLayout());
@@ -389,7 +389,7 @@ public class JavaLauncher extends JFrame {
             nameLbl.setFont(FONT_BOLD);
             nameLbl.setForeground(TEXT_MAIN);
             
-            descLbl = new JLabel(p.desc);
+            descLbl = new JLabel(p.descriptions.getOrDefault(currentLang, "No description"));
             descLbl.setFont(FONT_UI);
             descLbl.setForeground(TEXT_SEC);
 
@@ -397,7 +397,7 @@ public class JavaLauncher extends JFrame {
             textPanel.add(descLbl);
             inner.add(textPanel, BorderLayout.CENTER);
 
-            JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 12));
+            JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 15));
             rightPanel.setOpaque(false);
 
             statusLbl = new JLabel();
@@ -441,11 +441,10 @@ public class JavaLauncher extends JFrame {
 
         void refreshStrings() {
             actionBtn.setText(t("run"));
+            descLbl.setText(proj.descriptions.getOrDefault(currentLang, "No description"));
             setVisualStatus(currentState);
         }
     }
-
-    // --- UI Utility Components ---
 
     static class RoundedPanel extends JPanel {
         private final int radius;
@@ -498,8 +497,6 @@ public class JavaLauncher extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new JavaLauncher().setVisible(true);
-        });
+        SwingUtilities.invokeLater(() -> new JavaLauncher().setVisible(true));
     }
 }

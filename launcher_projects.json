@@ -2,51 +2,91 @@
   {
     "name": "Dinosaur Game",
     "path": "DinosaurInJava/App.java",
-    "description": ""
+    "description": {
+      "en": "Help the T-Rex dodge obstacles in this classic runner.",
+      "es": "Ayuda al T-Rex a esquivar obstáculos en este clásico juego de correr.",
+      "pt": "Ajude o T-Rex a desviar de obstáculos neste clássico jogo de corrida."
+    }
   },
   {
     "name": "Space Invaders Game",
     "path": "SpaceInvadersInJava/App.java",
-    "description": ""
+    "description": {
+      "en": "Defend the Earth from waves of alien invaders.",
+      "es": "Defiende la Tierra de oleadas de invasores alienígenas.",
+      "pt": "Defenda a Terra de ondas de invasores alienígenas."
+    }
   },
   {
     "name": "Pokemon Memory Cards Game",
     "path": "PokemonMemoryCardsInJava/App.java",
-    "description": ""
+    "description": {
+      "en": "Find all matching Pokemon pairs in this memory challenge.",
+      "es": "Encuentra todas las parejas de Pokemon en este desafío de memoria.",
+      "pt": "Encontre todos os pares de Pokemon neste desafio de memória."
+    }
   },
   {
     "name": "PacMan Game",
     "path": "PacManInJava/App.java",
-    "description": ""
+    "description": {
+      "en": "Navigate the maze and eat all the dots while avoiding ghosts.",
+      "es": "Navega por el laberinto y come todos los puntos evitando a los fantasmas.",
+      "pt": "Navegue pelo labirinto e coma todos os pontos enquanto evita os fantasmas."
+    }
   },
   {
     "name": "Snake Game",
     "path": "SnakeInJava/SnakeGame.java",
-    "description": ""
+    "description": {
+      "en": "Eat the food to grow as long as possible without hitting yourself.",
+      "es": "Come la comida para crecer tanto como puedas sin chocar contigo mismo.",
+      "pt": "Coma a comida para crescer o máximo possível sem bater em si mesmo."
+    }
   },
   {
     "name": "Sudoku",
     "path": "SudokuInJava/App.java",
-    "description": ""
+    "description": {
+      "en": "Fill the grid with numbers 1-9 following logical rules.",
+      "es": "Rellena la cuadrícula con números del 1 al 9 siguiendo reglas lógicas.",
+      "pt": "Preencha a grade com números de 1 a 9 seguindo regras lógicas."
+    }
   },
   {
     "name": "Flappy Bird Game",
     "path": "FlappyBirdInJava/App.java",
-    "description": ""
+    "description": {
+      "en": "Fly through the pipes by tapping to stay in the air.",
+      "es": "Vuela a través de las tuberías tocando para mantenerte en el aire.",
+      "pt": "Voe através dos canos tocando para se manter no ar."
+    }
   },
   {
     "name": "Whac A Mole Game",
     "path": "WhacAMoleInJava/App.java",
-    "description": ""
+    "description": {
+      "en": "Test your reflexes by hitting the moles as they pop up.",
+      "es": "Pon a prueba tus reflejos golpeando a los topos cuando aparezcan.",
+      "pt": "Teste seus reflexos acertando as toupeiras quando elas aparecerem."
+    }
   },
   {
     "name": "Black Jack Game",
     "path": "BlackJackInJava/App.java",
-    "description": ""
+    "description": {
+      "en": "Reach 21 or beat the dealer without going bust.",
+      "es": "Llega a 21 o vence al crupier sin pasarte.",
+      "pt": "Chegue a 21 ou vença o crupiê sem ultrapassar o limite."
+    }
   },
   {
     "name": "Minesweeper Game",
     "path": "MinesweeperInJava/App.java",
-    "description": ""
+    "description": {
+      "en": "Clear the board without clicking on hidden mines.",
+      "es": "Limpia el tablero sin hacer clic en las minas ocultas.",
+      "pt": "Limpe o tabuleiro sem clicar em minas escondidas."
+    }
   }
 ]
