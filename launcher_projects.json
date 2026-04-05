@@ -88,5 +88,14 @@
       "es": "Limpia el tablero sin hacer clic en las minas ocultas.",
       "pt": "Limpe o tabuleiro sem clicar em minas escondidas."
     }
+  },
+  {
+    "name": "Tic Tac Toe Game",
+    "path": "TictactoeInJava/App.java",
+    "description": {
+      "en": "Get three in a row to win!",
+      "es": "Consigue tres en raya para ganar.",
+      "pt": "Consiga três em sequência para vencer."
+    }
   }
 ]
