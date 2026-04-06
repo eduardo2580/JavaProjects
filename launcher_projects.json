@@ -97,5 +97,14 @@
       "es": "Consigue tres en raya para ganar.",
       "pt": "Consiga três em sequência para vencer."
     }
+  },
+  {
+    "name": "Calculator",
+    "path": "CalculatorInJava/App.java",
+    "description": {
+      "en": "Perform basic arithmetic operations.",
+      "es": "Realiza operaciones aritméticas básicas.",
+      "pt": "Realiza operações aritméticas básicas."
+    }
   }
 ]
